@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Internal Resource View Resolver configuration-->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix">
+			<value>/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+		<props>
+		<prop key="/paging.do">PagingController</prop>
+		</props>
+		</property>
+	</bean>
+	
+	<bean id="PagingController" class="pagination.controller.PaginationController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver" />
+		</property>
+	</bean>
+
+	<bean id="paramResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="defaultMethodName" value="list"/>
+		<property name="paramName">
+			<value>action</value>
+		</property>
+	</bean>
+</beans>
